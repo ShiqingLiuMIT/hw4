@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>select bus</head>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyARxs_0QWBQzZ-7tnFIkcz6Tzh5Fr1I0xg"></script>
+<script src="dbtest.js"></script>
+<select id="selectbusID"onchange="showbusdata()">
+<option value="select">select</option>
+</select>
+<div id="busdata"></div>
+<div id="map" style="width:1024px; height:768px"></div>
+<script>
+
+var unique= [];
+
+        businfo.forEach(element => {
+            if(!unique.includes(element.id)){
+              unique.push(element.id)
+          }
+        });        
+
+      console.log(unique);
+
+      var Dropdown = document.getElementById('selectbusID');
+      var opt = null;
+      for(i = 0; i<unique.length; i++) { 
+        opt = document.createElement('option');
+        opt.value = unique[i];
+        opt.innerHTML = unique[i];
+        Dropdown.appendChild(opt);
+                    
+        }
+        var selectedbusData = [];    
+        var showbusdata = function(){
+        var selectbusId = Dropdown.options[Dropdown.selectedIndex].value;
+        businfo.forEach(bus =>{
+            if (bus.id == selectbusId){
+              selectedbusData.push(bus)
+            };
+})
+
+    //document.getElementById("busdata").innerHTML = JSON.stringify(selectedbusData);
+    init(selectedbusData)
+}
+var map;
+var markers =[];
+var init =function (selectedbusData) {    
+
+    var myLatLng = new google.maps.LatLng(42.357261,-71.092626);
+    var myOptions = {
+            zoom: 13,
+            center: myLatLng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById('map'), myOptions);
+    selectedbusData.forEach(function(bus){
+        var icon = { 
+                path:google.maps.SymbolPath.CIRCLE,
+                fillColor: 'red',
+                fillOpacity: 0.5,
+                scale:10,
+                strokeWeight:0
+            }
+        var lat  = bus.attributes.latitude;
+        var long = bus.attributes.longitude;
+        var latlng = new google.maps.LatLng(lat,long)
+        var marker = new google.maps.Marker({
+            position : latlng,
+            map : map,
+            icon : icon
+        });
+        markers.push(marker);
+    });
+}   
+
+</script>
+</html>

@@ -1,0 +1,30 @@
+<html>
+
+  <script src="dbtest.js"></script>
+  <select id='selectbusID'>
+  <option value="select">select</option>
+</select>
+
+<script>
+var unique= [];
+
+businfo.forEach(element => {
+    if(!unique.includes(element.id)){
+      unique.push(element.id)
+  }
+});        
+
+console.log(unique);
+
+  var Dropdown = document.getElementById('selectbusID');
+  var opt = null;
+  for(i = 0; i<unique.length; i++) { 
+    opt = document.createElement('option');
+    opt.value = unique[i];
+    opt.innerHTML = unique[i];
+    Dropdown.appendChild(opt);
+            
+}
+</script>
+
+</html>

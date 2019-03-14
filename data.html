@@ -1,0 +1,41 @@
+<html>
+
+  <script src="dbtest.js"></script>
+  <select id="selectbusID"onchange="showbusdata()">
+  <option value="select">select</option>
+</select>
+<div id="busdata"></div>
+
+<script>
+var unique= [];
+
+        businfo.forEach(element => {
+            if(!unique.includes(element.id)){
+              unique.push(element.id)
+          }
+        });        
+
+      console.log(unique);
+
+      var Dropdown = document.getElementById('selectbusID');
+      var opt = null;
+      for(i = 0; i<unique.length; i++) { 
+        opt = document.createElement('option');
+        opt.value = unique[i];
+        opt.innerHTML = unique[i];
+        Dropdown.appendChild(opt);
+                    
+        }
+        var selectedbusData = [];    
+        var showbusdata = function(){
+        var selectbusId = Dropdown.options[Dropdown.selectedIndex].value;
+        businfo.forEach(bus =>{
+            if (bus.id == selectbusId){
+              selectedbusData.push(bus)
+            };
+})
+    document.getElementById("busdata").innerHTML = JSON.stringify(selectedbusData);
+}
+
+</script>
+</html>
